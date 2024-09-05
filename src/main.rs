@@ -73,8 +73,12 @@ impl IDE {
         let mut compiler: Compiler<T> = compiler.unwrap();
         let program = compiler.compile_str(&self.source);
         if let Err(e) = program {
-            self.compile_result = format!("Failed to compile to {}: {}", self.target, strip_ansi_escapes::strip_str(&e.to_string()));
-        self.compile_output = "".to_string();
+            self.compile_result = format!(
+                "Failed to compile to {}: {}",
+                self.target,
+                strip_ansi_escapes::strip_str(&e.to_string())
+            );
+            self.compile_output = "".to_string();
             return;
         }
         let program = program.unwrap();
@@ -154,6 +158,9 @@ impl eframe::App for IDE {
                 // render_build_options(self, ui);
                 render_build_info(self, ui);
             });
+        });
+        egui::TopBottomPanel::bottom("bottom").show(ctx, |ui| {
+            egui::widgets::global_dark_light_mode_buttons(ui);
         });
     }
 }
