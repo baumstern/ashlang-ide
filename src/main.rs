@@ -192,17 +192,21 @@ fn render_build_options(ide: &mut IDE, ui: &mut egui::Ui) {
 }
 
 fn render_build_info(ide: &mut IDE, ui: &mut egui::Ui) {
-    egui::ScrollArea::vertical()
-        .id_source("compile_output_scroll")
-        .show(ui, |ui| {
-            ui.vertical(|ui| {
-                ui.heading("Compile status");
+    ui.vertical(|ui| {
+        ui.heading("Compile status");
+        egui::ScrollArea::vertical()
+            .id_source("compile_status_scroll")
+            .show(ui, |ui| {
                 ui.colored_label(egui::Color32::WHITE, &ide.compile_result);
             });
-            ui.add(egui::Separator::default());
-            ui.vertical(|ui| {
-                ui.heading("Compile output");
+    });
+    ui.add(egui::Separator::default());
+    ui.vertical(|ui| {
+        ui.heading("Compile output");
+        egui::ScrollArea::vertical()
+            .id_source("compile_output_scroll")
+            .show(ui, |ui| {
                 ui.colored_label(egui::Color32::WHITE, &ide.compile_output);
             });
-        });
+    });
 }
